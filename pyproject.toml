@@ -1,0 +1,68 @@
+[project]
+name = "moving"
+version = "v0.0.1"
+description = "moving"
+authors = [
+]
+dependencies = []
+requires-python = ">=3.12"
+readme = "README.md"
+
+[build-system]
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"
+
+[tool.pdm.build]
+source-includes = ["pdm.lock"]
+
+[tool.setuptools]
+packages = ["moving"]
+
+[tool.pdm.dev-dependencies]
+dev = [
+    "pytest==7",
+    "pytest-sugar>=1.0.0",
+    "pytest-mock>=3.12.0",
+    "pytest-cov>=4.1.0",
+    "pytest-cases>=3.8.2",
+    "ruff>=0.3.5",
+]
+
+[tool.pdm.dependencies]
+
+[tool.isort]
+profile = "black"
+known_first_party = []
+
+[tool.docformatter]
+recursive = true
+black = true
+
+[tool.mypy]
+plugins = []
+
+[tool.pytest.ini_options]
+# asyncio_mode = "auto"
+markers = []
+addopts = "--cov=moving --cov-branch --cov-report=term-missing --cov-report=html"
+
+
+[tool.ruff]
+lint.select = [
+    "E", # Pycodestyle
+    "ERA", # Eradicate
+    "F", # Pyflakes
+    "T20", # Print
+    "TRY002", # Create own exception
+    "TRY004", # Type check without TypeError
+    "TRY201", # verbose raise
+    "TRY301", # raise with try
+    "TRY302", # useless try except
+    "TRY400", # logging.error used over logging.exception
+    "TRY401", # verbose log message
+    "Q", # Quotes
+    "DTZ", # Naive datetime
+]
+
+[tool.pyright]
+include = ["moving", "tests"]
