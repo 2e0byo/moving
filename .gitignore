@@ -179,3 +179,4 @@ pyrightconfig.json
 
 .vscode/
 /.direnv/
+/.secrets.json
