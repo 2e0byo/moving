@@ -1,0 +1,81 @@
+<!doctype html>
+<html charset="UTF-8">
+  <head>
+    <link rel="stylesheet" href="https://unpkg.com/chota@latest" />
+    <title>Add new box</title>
+  </head>
+  <body>
+    <style>
+      body.dark {
+        --bg-color: #000;
+        --bg-secondary-color: #131316;
+        --font-color: #f5f5f5;
+        --color-grey: #ccc;
+        --color-darkGrey: #777;
+      }
+    </style>
+    <script>
+      if (
+        window.matchMedia &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches
+      ) {
+        document.body.classList.add("dark");
+      }
+    </script>
+    <div class="container">
+      <h1>Add new box</h1>
+
+      <p>
+        Fill in the relevant fields, take a picture of the box's contents and
+        press "Add Box". The box will be added to the server and the box's
+        labels will be queued for printing. If the label printing goes wrong you
+        can reprint from the next page or by looking up the box at any point.
+      </p>
+
+      <form action="/box" method="post" target="_self" enctype="multipart/form-data">
+        <label for="title"
+          >Short description of box contents, e.g. "books" (max 20 chars)</label
+        >
+        <input
+          type="text"
+          id="title"
+          name="title"
+          maxlength="20"
+          required="true"
+        />
+
+        <label for="description"
+          >Longer description of box contents, e.g. "English c20 fiction,
+          paperbacks" (max 500 chars)</label
+        >
+        <input
+          type="text"
+          id="description"
+          name="description"
+          maxlength="500"
+          required="true"
+        />
+
+        <label for="value"
+          >Rough estimated resale value ("accounting value") of box, e.g.
+          "50"</label
+        >
+
+        <input type="number" min="0" name="value" id="value" />
+
+        <label for="interior">Picture of box interior:</label>
+        <input
+          type="file"
+          accept="image/*"
+          capture="environment"
+          id="interior"
+          name="interior"
+          required="true"
+          multiple="true"
+        />
+
+        <button type="submit">Add Box</button>
+      </form>
+    </div>
+  </body>
+</html>
