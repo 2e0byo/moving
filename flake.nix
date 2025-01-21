@@ -1,6 +1,5 @@
 {
-  description = "moving";
-
+  description = "Tool for managing boxes when moving";
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     flake-utils.url = "github:numtide/flake-utils";
@@ -19,29 +18,27 @@
           inherit system;
         };
         python = pkgs.python312;
-        # 'build time' deps
-        buildInputs = (with pkgs; [
-          (python.withPackages(ps: with ps; [ # packages not specified in pyproject.toml: these will be available in the venv.
-          ]))
-          pdm
-          copier
-          pre-commit
-        ])
-        
-        ;
+        buildInputs = [
+          (python.withPackages (ps:
+            with ps; [
+              # packages not specified in pyproject.toml: these will be available in the venv.
+            ]))
+          pkgs.pdm
+          pkgs.pre-commit
+          pkgs.nodePackages.prettier
+        ];
         # allow building c extensions
         env = {
           LD_LIBRARY_PATH = "${pkgs.stdenv.cc.cc.lib}/lib";
         };
-      in
-        with pkgs; {
-          devShells.default = mkShell {
-            inherit buildInputs;
-            inherit env;
-              shellHook = ''
-              pre-commit install
-              '';
-          };
-        }
+      in {
+        devShells.default = pkgs.mkShell {
+          inherit buildInputs;
+          inherit env;
+          shellHook = ''
+            pre-commit install
+          '';
+        };
+      }
     );
 }
