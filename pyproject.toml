@@ -4,7 +4,7 @@ version = "v0.0.1"
 description = "moving"
 authors = [
 ]
-dependencies = []
+dependencies = ["fastapi[standard]>=0.115.6"]
 requires-python = ">=3.12"
 readme = "README.md"
 
@@ -27,8 +27,6 @@ dev = [
     "pytest-cases>=3.8.2",
     "ruff>=0.3.5",
 ]
-
-[tool.pdm.dependencies]
 
 [tool.isort]
 profile = "black"
