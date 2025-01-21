@@ -3,14 +3,14 @@ from pathlib import Path
 from typing import Annotated, Any
 
 from fastapi import Depends, FastAPI, Form, responses
-from fastapi.staticfiles import StaticFiles
 
 from .auth import auth
+from .static import AuthStaticFiles
 
 app = FastAPI()
 static_dir = Path(__file__).parent.parent / "static"
 
-app.mount("/static", StaticFiles(directory=static_dir), name="static")
+app.mount("/static", AuthStaticFiles(directory=static_dir), name="static")
 
 
 @app.get("/")

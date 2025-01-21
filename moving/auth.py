@@ -5,7 +5,7 @@ from json import loads
 from pathlib import Path
 from typing import Annotated, Iterable
 
-from fastapi import Depends, HTTPException, status
+from fastapi import Depends, HTTPException, Request, status
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
 
 security = HTTPBasic()
@@ -55,4 +55,10 @@ def auth(
         )
 
 
-__all__ = [auth]
+async def verify_request(request: Request) -> None:
+    given = await security(request)
+    assert given
+    auth(given, known=passwords())
+
+
+__all__ = [auth, verify_request]
