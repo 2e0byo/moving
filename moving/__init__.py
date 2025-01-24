@@ -24,7 +24,6 @@ def homepage(
     return responses.HTMLResponse(
         templates.get_template("index.html.jinja2").render(n_boxes=n_boxes)
     )
-    return responses.RedirectResponse("/static/index.html")
 
 
 @app.get("/add-box")
