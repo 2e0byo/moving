@@ -1,0 +1,48 @@
+{% extends "base.html.jinja2" %}
+{% block head %}
+  {{ super() }}
+  <style>
+    form.select-box > div {
+    display: flex;;
+    }
+    form.select-box > div > input {
+    width: 80px;
+    margin-left: 4px;
+    }
+  </style>
+{% endblock %}
+{% block title %}Moving App{% endblock %}
+{% block content %}
+  <h1>What would you like to do?</h1>
+
+  <p>
+    There are {{ n_boxes }} boxes in the inventory.
+
+  <div class="row">
+    <div class="col">
+      <a class="button primary" href="/add-box">Add new box</a>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <form action="/box" method="get" class="select-box">
+        <div>
+          <button class="secondary" type="submit">View box</button>
+          <input
+            type="number"
+            name="id"
+            id="box-no"
+            min=1
+            max={{ n_boxes }}
+            value=1
+            />
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <a class="button primary" href="/boxes">List all boxes</a>
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,7 @@
+{% extends "base.html.jinja2" %}
+{% block title %}View box{%if boxes|length > 1%}s{% endif %}{% endblock %}
+{% block content %}
+  {% for box in boxes %}
+    {{ box }}
+  {% endfor %}
+{% endblock %}

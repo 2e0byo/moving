@@ -1,0 +1,94 @@
+{% extends "base.html.jinja2" %}
+{% block title %}Add new box{% endblock %}
+{% block head %}
+  {{ super() }}
+  <style>
+    input#description {
+    height: 4em;
+    }
+  </style>
+  <script>
+    const addImg = () => {
+      const container = document.getElementById("pictures");
+      const addBtn = document.getElementById("addBtn");
+
+      const div = document.createElement("div");
+      div.className = "row";
+
+      const el = document.createElement("input");
+      el.type = "file";
+      el.accept = "image/*";
+      el.capture = "environment";
+      el.id = "interior";
+      el.name = "interior";
+      el.required = false;
+      el.className = "col-10";
+
+      addBtn.parentNode.removeChild(addBtn);
+      div.appendChild(el);
+      div.appendChild(addBtn);
+      container.appendChild(div);
+    };
+  </script>
+{% endblock %}
+{% block content %}
+<h1>Add new box</h1>
+
+<p>
+  Fill in the relevant fields, take a picture of the box's contents and
+  press "Add Box". The box will be added to the server and the box's
+  labels will be queued for printing. If the label printing goes wrong you
+  can reprint from the next page or by looking up the box at any point.
+</p>
+
+<form action="/box" method="post" target="_self" enctype="multipart/form-data">
+  <label for="title">Short description of box contents, e.g. "books" (max 20 chars)</label>
+  <input
+    type="text"
+    id="title"
+    name="title"
+    maxlength="20"
+    required="true"
+  />
+
+  <label
+    for="description"
+    >Longer description of box contents, e.g. "English c20 fiction, paperback"  (max 500 chars)</label>
+
+  <textarea
+    name="description"
+    id="description"
+    rows="4"
+    type="text"
+    id="description"
+    name="description"
+    maxlength="500"
+    required="true"
+  ></textarea>
+
+  <label for="value"
+    >Rough estimated resale value ("accounting value") of box, e.g.
+    "50" (number only; no decimals).</label
+  >
+
+  <input type="number" min="1" name="value" id="value" />
+
+  <label for="interior">One or more pictures of box interior:</label>
+  <div id="pictures">
+    <div class="row">
+      <input
+        type="file"
+        accept="image/*"
+        capture="environment"
+        id="interior"
+        name="interior"
+        required="true"
+        class="col-8"
+      />
+      <button class="col" type="button" onclick="addImg()" id="addBtn">+</button>
+    </div>
+  </div>
+
+  <button type="submit">Add Box</button>
+</form>
+{% endblock %}

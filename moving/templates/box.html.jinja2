@@ -1,0 +1,23 @@
+<div class="card" id="box">
+  <header>
+    <h4>
+      <span id="id">#{{ box.id }}</span>
+      {{ box.title }}
+      <h4>
+  </header>
+  <p>
+    {{ box.description | replace("\n", "<p>\n") }}
+
+    <div class="row">
+      {% for img in box.interior %}
+        <div class="gallery col-6  col-3-md col-2-lg">
+          <img src="{{ img.as_data() }}" >
+        </div>
+      {% endfor %}
+    </div>
+
+    <footer>
+      <p class="text-right">
+        €{{ box.value }}
+    </footer>
+</div>

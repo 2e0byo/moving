@@ -1,0 +1,27 @@
+{% extends "base.html.jinja2" %}
+{% block title %}Box {{ box.id }} added{% endblock %}
+{% block content %}
+  <h1>Box added</h1>
+
+  <p>
+    Box {{ box.id }} has been added to the server.
+
+    {{ box_html }}
+
+    <p>
+      The labels should print shortly. If they don't, check the label printer
+      is plugged in and connected to a computer running the label client, and
+      that there are no error messages in the client output.
+
+      <p>
+        What would you like to do next?
+
+      <div class="row">
+        <a class="button primary col" href="/add-box">Add new box</a>
+        <a class="button secondary col" href="/reprint?id={{ box.id }}">Re-print labels</a>
+        <a class="button error col" href="/delete?id={{ box.id }}">Delete box</a>
+        <a class="button secondary col" href="/">Go Home</a>
+      </div>
+
+</div>
+{% endblock %}

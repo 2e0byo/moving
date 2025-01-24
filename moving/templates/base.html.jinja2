@@ -1,0 +1,71 @@
+<!doctype html>
+<html charset="UTF-8">
+  <head>
+    {% block head %}
+      <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link rel="stylesheet" href="https://unpkg.com/chota@latest" />
+      <link rel="stylesheet" href="https://jenil.github.io/chota/doc-styles.css">
+      <title>{% block title %}{% endblock %}</title>
+      <style>
+        div.gallery:hover {
+        float: left;
+        position:relative;
+        border: 2px solid var(--color-grey);
+        -webkit-transform: translateX(100%) scale(3);
+        transform: translateX(100%) scale(3);
+        line-height: 0%;
+        }
+      </style>
+    {% endblock %}
+  </head>
+  <body>
+    <style>
+      body.dark {
+      --bg-color: #000;
+      --bg-secondary-color: #131316;
+      --font-color: #f5f5f5;
+      --color-grey: #ccc;
+      --color-darkGrey: #777;
+      }
+    </style>
+    <script>
+      if (
+      window.matchMedia &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches
+      ) {
+      document.body.classList.add("dark");
+      }
+    </script>
+    <div class="container">
+      {% block content %}
+      {% endblock %}
+    </div>
+    <footer>
+      {% block footer %}
+        Made with <a href="https://jenil.github.io/chota/">Chota</a>. Source available at <a
+        href="https://github.com/2e0byo/moving">Github</a>.
+
+        We don't use eat your cookies or anything like that.
+
+        <a href="javascript:void(0)" id="theme-switch" onclick="switchMode(this)">☀️</a>
+        <script>
+          if (
+          window.matchMedia &&
+          window.matchMedia("(prefers-color-scheme: dark)").matches
+          ) {
+          document.body.classList.add("dark");
+          document.querySelector('#theme-switch').innerHTML = "Theme: 🌙"
+          }
+
+          function switchMode(el) {
+          const bodyClass = document.body.classList;
+          bodyClass.contains("dark")
+          ? ((el.innerHTML = "Theme: ☀️"), bodyClass.remove("dark"))
+          : ((el.innerHTML = "Theme: 🌙"), bodyClass.add("dark"));
+          }
+        </script>
+      {% endblock %}
+    </footer>
+  </body>
+</html>
