@@ -1,4 +1,3 @@
-from pathlib import Path
 from typing import Annotated
 
 from fastapi import Depends, FastAPI, Form, HTTPException, UploadFile, responses
@@ -6,13 +5,9 @@ from jinja2 import Environment, PackageLoader, select_autoescape
 
 from .auth import auth
 from .db import DB, CreateBox, Picture, db
-from .static import AuthStaticFiles
 
 app = FastAPI()
-static_dir = Path(__file__).parent.parent / "static"
 templates = Environment(loader=PackageLoader("moving"), autoescape=select_autoescape())
-
-app.mount("/static", AuthStaticFiles(directory=static_dir), name="static")
 
 
 @app.get("/")
