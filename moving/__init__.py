@@ -2,6 +2,7 @@ import asyncio
 import threading
 from typing import Annotated
 
+import logfire
 from fastapi import Depends, FastAPI, Form, HTTPException, UploadFile, responses
 from jinja2 import Environment, PackageLoader, select_autoescape
 
@@ -10,11 +11,16 @@ from moving.labels import Label
 
 from .auth import auth
 from .db import DB, Box, CreateBox, CreatePicture, db
+from .observability import register_logfire
 
 app = FastAPI()
 templates = Environment(loader=PackageLoader("moving"), autoescape=select_autoescape())
 
 label_queue = asyncio.Queue(128)
+logfire_available = register_logfire()
+if logfire_available:
+    logfire.instrument_fastapi(app)
+    logfire.instrument_sqlite3()
 
 
 @app.get("/")
