@@ -26,6 +26,7 @@
           pkgs.pdm
           pkgs.pre-commit
           pkgs.nodePackages.prettier
+          pkgs.texliveSmall
         ];
         # allow building c extensions
         env = {

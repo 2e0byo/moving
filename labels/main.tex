@@ -1,0 +1,35 @@
+\documentclass[16pt, oneside]{extreport}
+\usepackage{mathptmx}
+\usepackage[
+  paperheight=53mm,
+  paperwidth=62mm,
+  scale=1,
+  left=5px,
+  top=5px,
+  right=1px,
+  bottom=13mm,
+]{geometry}
+\pagestyle{empty}
+\setlength{\parindent}{0em}
+\usepackage{qrcode}
+\begin{document}
+\bfseries
+\fontsize{16}{16}\selectfont
+
+\begin{minipage}{22mm}
+  \qrcode[height=22mm]{QR_CONTENTS}%
+\vspace{5mm}%
+\begin{center}
+  \Huge
+  \texttt
+  \# NO
+\end{center}
+\par\vfill%
+\end{minipage}%
+\hspace{3mm}
+\begin{minipage}{29mm}
+  \huge
+  TITLE
+\end{minipage}
+
+\end{document}

@@ -79,6 +79,9 @@ class DB:
                 CREATE TABLE IF NOT EXISTS box
                   (id INTEGER PRIMARY KEY, data TEXT, deleted INTEGER)
                 STRICT;
+                CREATE TABLE IF NOT EXISTS label
+                  (box_id INTEGER PRIMARY KEY, data BLOB)
+                STRICT;
                 """
             )
 
@@ -116,6 +119,19 @@ class DB:
         return [
             Box.build(CreateBox.model_validate_json(data), id) for (id, data) in boxes
         ]
+
+    def add_label(self, box_id: int, label: bytes) -> None:
+        self.cursor().execute("INSERT INTO label VALUES (?, ?)", [box_id, label])
+
+    def load_label(self, box_id: int) -> bytes:
+        row = (
+            self.cursor()
+            .execute("SELECT data FROM label WHERE box_id=?", [box_id])
+            .fetchone()
+        )
+        if not row:
+            raise FileNotFoundError
+        return row[0]
 
 
 @cache
