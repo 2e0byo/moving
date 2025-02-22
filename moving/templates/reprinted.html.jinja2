@@ -1,0 +1,21 @@
+{% extends "base.html.jinja2" %}
+{% block title %}Labels for box {{ id }} reprinted{% endblock %}
+{% block content %}
+  <h1>Labels reprinted</h1>
+
+  <p>
+    The labels for box {{ id }} have been sent to the printer again.
+
+  <p>
+    If you don't see them, check the printer script is running.
+
+  <p>
+     What would you like to do next?
+
+   <div class="row">
+     <a class="button primary col" href="/add-box">Add new box</a>
+     <a class="button secondary col" href="/">Go Home</a>
+   </div>
+
+</div>
+{% endblock %}

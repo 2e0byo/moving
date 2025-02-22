@@ -11,7 +11,7 @@
     <div class="row">
       {% for img in box.interior %}
         <div class="gallery col-6  col-3-md col-2-lg">
-          <img src="{{ img.as_data() }}" >
+          <img src="{{ img.permalink() }}" >
         </div>
       {% endfor %}
     </div>
@@ -20,4 +20,8 @@
       <p class="text-right">
         €{{ box.value }}
     </footer>
+    {% if not hide_buttons  %}
+    <a class="button secondary col" href="/reprint?id={{ box.id }}">Re-print labels</a>
+    <a class="button error col" href="/delete?id={{ box.id }}">Delete box</a>
+    {% endif %}
 </div>
