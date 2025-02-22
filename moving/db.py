@@ -93,7 +93,7 @@ class DB:
         return Box.build(box, id)
 
     def load_box(self, id: int) -> Box:
-        row = self.cursor().execute("SELECT * FROM box WHERE ID=?", [id]).fetchone()
+        row = self.cursor().execute("SELECT * FROM box WHERE id=?", [id]).fetchone()
         if not row:
             raise FileNotFoundError
         id, data, deleted = row
