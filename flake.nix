@@ -23,7 +23,7 @@
             with ps; [
               # packages not specified in pyproject.toml: these will be available in the venv.
             ]))
-          pkgs.pdm
+          pkgs.uv
           pkgs.pre-commit
           pkgs.nodePackages.prettier
           pkgs.texliveSmall
