@@ -141,8 +141,11 @@ def label_events(
     if LABEL_LOCK.acquire(blocking=False):
         # Note this isn't full SSE; it's just ids linewise
         async def iter_labels():
-            while True:
-                yield f"{await label_queue.get()}\n"
+            try:
+                while True:
+                    yield f"{await label_queue.get()}\n"
+            finally:
+                LABEL_LOCK.release()
 
         return responses.StreamingResponse(
             iter_labels(), media_type="text/event-stream"
