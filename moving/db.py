@@ -35,18 +35,20 @@ class CreatePicture(BaseModel):
         return cls(extension=filename.split(".")[-1], data=await uploaded.read())
 
 
-class Picture(CreatePicture):
-    model_config = ConfigDict(ser_json_bytes="base64", val_json_bytes="base64")
-
+class Picture(BaseModel):
     extension: NonEmptyStr
-    data: bytes = Field(max_length=MAX_PIC_SIZE_BYTES)
     id: int
-
-    def as_data(self) -> str:
-        return f"data:image/{self.extension};base64,{b64encode(self.data).decode()}"
 
     def permalink(self) -> str:
         return permalink(f"image?id={self.id}")
+
+
+class LoadedPicture(Picture):
+    model_config = ConfigDict(ser_json_bytes="base64", val_json_bytes="base64")
+    data: bytes = Field(max_length=MAX_PIC_SIZE_BYTES)
+
+    def as_data(self) -> str:
+        return f"data:image/{self.extension};base64,{b64encode(self.data).decode()}"
 
     def as_response(self) -> responses.Response:
         return responses.Response(self.data, media_type=f"image/{self.extension}")
@@ -63,10 +65,7 @@ class CreateBox(BaseModel):
 
 class Box(CreateBox):
     id: int
-
-    @classmethod
-    def build(cls, box: CreateBox, id: int):
-        return cls.model_validate(box.model_dump() | {"id": id})
+    interior: list[Picture]
 
 
 @contextmanager
@@ -180,8 +179,7 @@ class DB:
                         picture.data,
                     ],
                 )
-
-        return Box.build(box, id)
+        return self.load_box(id)
 
     def load_box(self, id: int) -> Box:
         row = self.fetchone("SELECT * FROM box WHERE id=?", [id])
@@ -190,11 +188,10 @@ class DB:
             raise FileNotFoundError
         # yeah we could do this all in 1 query...
         picture_rows = self.fetchall(
-            "SELECT id, extension, data FROM picture WHERE box_id=?", [id]
+            "SELECT id, extension FROM picture WHERE box_id=?", [id]
         )
         pictures = [
-            Picture(id=id, extension=extension, data=data)
-            for (id, extension, data) in picture_rows
+            Picture(id=id, extension=extension) for (id, extension) in picture_rows
         ]
         return Box(
             id=id,
@@ -206,11 +203,11 @@ class DB:
             interior=pictures,
         )
 
-    def load_picture(self, id: int) -> Picture:
+    def load_picture(self, id: int) -> LoadedPicture:
         id, extension, data = self.fetchone(
             "SELECT id, extension, data FROM picture WHERE id=?", [id]
         )
-        return Picture(id=id, extension=extension, data=data)
+        return LoadedPicture(id=id, extension=extension, data=data)
 
     def n_boxes(self) -> int:
         return self.fetchone("SELECT COUNT(*) FROM box WHERE deleted=false")[0]
